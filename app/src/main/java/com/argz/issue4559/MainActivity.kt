@@ -3,12 +3,16 @@ package com.argz.issue4559
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.EditText
 import android.widget.TextView
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -35,7 +39,13 @@ class MainActivity : AppCompatActivity() {
             val token = task.result
 
             log("FCM token: $token")
-            tokenTv.text = "FCM token: $token"
+            tokenTv.text = "$token"
         })
+    }
+
+    fun copy_token(view: View) {
+        val clipboard: ClipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip = ClipData.newPlainText("label", findViewById<TextView>(R.id.token).text.toString())
+        clipboard.setPrimaryClip(clip)
     }
 }
